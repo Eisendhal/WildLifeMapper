@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset='utf-8' />
-	<title>WildeLifeMapper</title>
+	<title>WildLifeMapper</title>
 	<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no,width=device-width' />
 
 	<!-- MAPBOX -->
@@ -16,37 +16,57 @@
 	<!-- OURS -->
 	<script src='js/mapbox.js'></script>
 	<script src="js/SideNavi.js"></script>
-	<script type="text/javascript">
-        jQuery(document).ready( function () {
-            SideNavi.init({
-                container : '#sideNavi',
-                item : '.side-navi-item',
-                data : '.side-navi-data',
-                tab : '.side-navi-tab',
-                active : '.active'
-            });
-        });
-    </script>
+	<script src="js/InitSideNavi.js"></script>
+	
 	<link href='css/style.css' rel='stylesheet' />
 </head>
 <body>
 	<div id="sideNavi">
-		<div class="side-navi-item item1"><div>Orignal</div></div>
-		<div class="side-navi-item item2"><div>Phoque</div></div>
-		<div class="side-navi-item item3"><div>Ours</div></div>
-		<div class="side-navi-item item4"><div>Marmotte</div></div>
+		<div class="side-navi-item item1">
+			<div>LISTE</div>
+		</div>
 		<div class="side-navi-data">
 			<div class="side-navi-tab">
-				<div>Alces est le nom scientifique qui désigne un grand cervidé appelé communément élan, qui vit en Sibérie, en Scandinavie et en Amérique du Nord où il porte le nom d'orignal. Cet animal, dont les bois sont aplatis en éventail, est le plus grand des cervidés actuels</div>
-			</div>
-			<div class="side-navi-tab">
-				<div>Le phoque commun ou veau marin (Phoca vitulina) est un mammifère carnivore, de la famille des phocidés. Son espérance de vie peut atteindre 25 ans pour le mâle et 35 ans pour la femelle, avec des variations importantes selon les zones de vie et les sous-populations ou sous-espèces.</div>
-			</div>
-			<div class="side-navi-tab">
-				<div>L'ours noir (Ursus americanus), aussi appelé baribal, est l'ours le plus commun en Amérique du Nord. Il se rencontre dans une aire géographique qui s'étend du nord du Canada et de l'Alaska au nord du Mexique, et des côtes atlantiques aux côtes pacifiques de l'Amérique du Nord. Il est présent dans un bon nombre d'États américains et dans toutes les provinces canadiennes. Il préfère les forêts et les montagnes où il trouve sa nourriture et peut se cacher.</div>
-			</div>
-			<div class="side-navi-tab">
-				<div>La marmotte commune (Marmota monax) est le type de marmotte le plus répandu en Amérique du Nord. Elle est communément surnommée siffleux à cause de son cri, ou parfois bonhomme couèche dans les milieux acadiens1. Son nom en anglais est groundhog, "cochon de terre" car les marmottes sont toujours occupées à fouir le sol. On la désigne aussi couramment en anglais sous le nom de Woodchuck, une déformation de l'algonquien wuchak. C'est la plus solitaire des marmottes.</div>
+			<li>
+				<ul>
+					<div class="tooltip">
+						<a href="" id="Orignal">Orignal</a>
+						<span class="tooltiptext"> Des informations très utiles et intérescentes, le css c'est rigolo, j'aime les glaces et les lapins, wingardium leviosaaaaaaaaaaaaaaaaaaaaa </span>
+					</div>
+				</ul>
+			</li>
+			<li>
+				<ul>
+					<div class="tooltip">
+						<a href="" id="Ours">Ours noir</a>
+						<span class="tooltiptext"> Des informations très utiles et intérescentes, le css c'est rigolo, j'aime les glaces et les lapins, wingardium leviosaaaaaaaaaaaaaaaaaaaaa </span>
+					</div>
+				</ul>
+			</li>
+			<li>
+				<ul>
+					<div class="tooltip">
+						<a href="" id="Phoque">Phoque communs</a>
+						<span class="tooltiptext"> Des informations très utiles et intérescentes, le css c'est rigolo, j'aime les glaces et les lapins, wingardium leviosaaaaaaaaaaaaaaaaaaaaa </span>
+					</div>
+				</ul>
+			</li>
+			<li>
+				<ul>
+					<div class="tooltip">
+						<a href="" id="Marmotte">Marmotte</a>
+						<span class="tooltiptext"> Des informations très utiles et intérescentes, le css c'est rigolo, j'aime les glaces et les lapins, wingardium leviosaaaaaaaaaaaaaaaaaaaaa </span>
+					</div>
+				</ul>
+			</li>
+			<li>
+				<ul>
+					<div class="tooltip">
+						<a href="" id="Castor">Castor</a>
+						<span class="tooltiptext"> Des informations très utiles et intérescentes, le css c'est rigolo, j'aime les glaces et les lapins, wingardium leviosaaaaaaaaaaaaaaaaaaaaa </span>
+					</div>
+				</ul>
+			</li>
 			</div>
 		</div>
 	</div>
