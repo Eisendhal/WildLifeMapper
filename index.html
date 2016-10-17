@@ -11,68 +11,44 @@
 
 	<!-- JQuery -->
 	<script src='https://code.jquery.com/jquery-3.1.1.min.js'></script>
-	<script src="https://code.jquery.com/jquery.min.js"></script>
 
 	<!-- OURS -->
 	<script src='js/mapbox.js'></script>
-	<script src="js/SideNavi.js"></script>
-	<script src="js/InitSideNavi.js"></script>
-	
+	<script src="js/InitSideNaviV2.js"></script>
 	<link href='css/style.css' rel='stylesheet' />
 </head>
 <body>
-	<div id="sideNavi">
-		<div class="side-navi-item item1">
-			<div>LISTE</div>
-		</div>
-		<div class="side-navi-data">
-			<div class="side-navi-tab">
-			<li>
-				<ul>
-					<div class="tooltip">
-						<a href="" id="Orignal">Orignal</a>
-						<span class="tooltiptext"> Des informations très utiles et intérescentes, le css c'est rigolo, j'aime les glaces et les lapins, wingardium leviosaaaaaaaaaaaaaaaaaaaaa </span>
-					</div>
-				</ul>
+	<div id="sidebar"> 
+		<img src="img/LogoWLM.png" alt='WLM' id='logo'/>
+		<ul>
+			<li class="tooltip">
+				<a id="Orignal" href="#">Orignal</a>
+				<span class="tooltiptext">AHAHAh TOOLTIP AHAHAHAH TOOLTIP</span>
+			</li >
+			<li class="tooltip">
+				<a id="Ours" href="#">Ours</a>
+				<span class="tooltiptext">AHAHAh TOOLTIP AHAHAHAH TOOLTIP</span>
 			</li>
-			<li>
-				<ul>
-					<div class="tooltip">
-						<a href="" id="Ours">Ours noir</a>
-						<span class="tooltiptext"> Des informations très utiles et intérescentes, le css c'est rigolo, j'aime les glaces et les lapins, wingardium leviosaaaaaaaaaaaaaaaaaaaaa </span>
-					</div>
-				</ul>
+			<li class="tooltip">
+				<a id="Phoque" href="#">Phoque</a>
+				<span class="tooltiptext">AHAHAh TOOLTIP AHAHAHAH TOOLTIP</span>
 			</li>
-			<li>
-				<ul>
-					<div class="tooltip">
-						<a href="" id="Phoque">Phoque communs</a>
-						<span class="tooltiptext"> Des informations très utiles et intérescentes, le css c'est rigolo, j'aime les glaces et les lapins, wingardium leviosaaaaaaaaaaaaaaaaaaaaa </span>
-					</div>
-				</ul>
+			<li class="tooltip">
+				<a id="Marmotte" href="#">Marmotte</a>
+				<span class="tooltiptext">AHAHAh TOOLTIP AHAHAHAH TOOLTIP</span>
 			</li>
-			<li>
-				<ul>
-					<div class="tooltip">
-						<a href="" id="Marmotte">Marmotte</a>
-						<span class="tooltiptext"> Des informations très utiles et intérescentes, le css c'est rigolo, j'aime les glaces et les lapins, wingardium leviosaaaaaaaaaaaaaaaaaaaaa </span>
-					</div>
-				</ul>
+			<li class="tooltip">
+				<a id="Castor" href="#">Castor</a>
+				<span class="tooltiptext">AHAHAh TOOLTIP AHAHAHAH TOOLTIP</span>
 			</li>
-			<li>
-				<ul>
-					<div class="tooltip">
-						<a href="" id="Castor">Castor</a>
-						<span class="tooltiptext"> Des informations très utiles et intérescentes, le css c'est rigolo, j'aime les glaces et les lapins, wingardium leviosaaaaaaaaaaaaaaaaaaaaa </span>
-					</div>
-				</ul>
-			</li>
-			</div>
+		</ul>
+		<div id="sidebar-btn">
+			<span class="expand"></span>
+			<span class="expand"></span>
+			<span class="expand"></span>
 		</div>
 	</div>
 	<div id='map'>
-		<!-- Add WLM watermark -->
-		<img src="img/LogoWLM.png" alt='WLM' id='logo'/>
 		<!-- Add MapBox watermark -->
 		<a href="http://mapbox.com/about/maps" id='mapbox-maplogo' target="_blank">Mapbox></a>
 	</div>
