@@ -1,56 +1,81 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<meta charset='utf-8' />
-	<title>WildLifeMapper</title>
-	<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no,width=device-width' />
+	<head>
+		<meta charset='utf-8' />
+		<title>WildLifeMapper</title>
+		<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no,width=device-width' />
 
-	<!-- MAPBOX -->
-	<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.26.0/mapbox-gl.js'></script> 
-	<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.26.0/mapbox-gl.css' rel='stylesheet' />
+		<!-- JQuery -->
+		<script src='https://code.jquery.com/jquery-3.1.1.min.js'></script>
 
-	<!-- JQuery -->
-	<script src='https://code.jquery.com/jquery-3.1.1.min.js'></script>
+		<!-- Boostrap -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-	<!-- OURS -->
-	<script src='js/mapbox.js'></script>
-	<script src="js/InitSideNaviV2.js"></script>
-	<link href='css/style.css' rel='stylesheet' />
-</head>
-<body>
-	<div id="sidebar"> 
-		<img src="img/LogoWLM.png" alt='WLM' id='logo'/>
-		<ul>
-			<li class="tooltip">
-				<a id="Orignal" href="#">Orignal</a>
-				<span class="tooltiptext">AHAHAh TOOLTIP AHAHAHAH TOOLTIP</span>
-			</li >
-			<li class="tooltip">
-				<a id="Ours" href="#">Ours</a>
-				<span class="tooltiptext">AHAHAh TOOLTIP AHAHAHAH TOOLTIP</span>
-			</li>
-			<li class="tooltip">
-				<a id="Phoque" href="#">Phoque</a>
-				<span class="tooltiptext">AHAHAh TOOLTIP AHAHAHAH TOOLTIP</span>
-			</li>
-			<li class="tooltip">
-				<a id="Marmotte" href="#">Marmotte</a>
-				<span class="tooltiptext">AHAHAh TOOLTIP AHAHAHAH TOOLTIP</span>
-			</li>
-			<li class="tooltip">
-				<a id="Castor" href="#">Castor</a>
-				<span class="tooltiptext">AHAHAh TOOLTIP AHAHAHAH TOOLTIP</span>
-			</li>
-		</ul>
-		<div id="sidebar-btn">
-			<span class="expand"></span>
-			<span class="expand"></span>
-			<span class="expand"></span>
+		<!-- MapBox -->
+		<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.26.0/mapbox-gl.js'></script> 
+		<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.26.0/mapbox-gl.css' rel='stylesheet' />
+
+		<!-- OURS -->
+		<script src='js/mapbox.js'></script>
+		<script src="js/InitSideNaviV2.js"></script>
+		<link href='css/style.css' rel='stylesheet' />
+	</head>
+	<body>
+		<div id="sidebar"> 
+			<img src="img/LogoWLM.png" alt='WLM' id='logo'/>
+			<ul>
+				<li class="myTooltip">
+					<a id="Orignal" href="#">Orignal</a>
+					<span class="tooltiptext">AHAHAh TOOLTIP AHAHAHAH TOOLTIP</span>
+				</li >
+				<li class="myTooltip">
+					<a id="Ours" href="#">Ours</a>
+					<span class="tooltiptext">AHAHAh TOOLTIP AHAHAHAH TOOLTIP</span>
+				</li>
+				<li class="myTooltip">
+					<a id="Phoque" href="#">Phoque</a>
+					<span class="tooltiptext">AHAHAh TOOLTIP AHAHAHAH TOOLTIP</span>
+				</li>
+				<li class="myTooltip">
+					<a id="Marmotte" href="#">Marmotte</a>
+					<span class="tooltiptext">AHAHAh TOOLTIP AHAHAHAH TOOLTIP</span>
+				</li>
+				<li class="myTooltip">
+					<a id="Castor" href="#">Castor</a>
+					<span class="tooltiptext">AHAHAh TOOLTIP AHAHAHAH TOOLTIP</span>
+				</li>
+			</ul>
+			<div id="sidebar-btn">
+				<span class="expand"></span>
+				<span class="expand"></span>
+				<span class="expand"></span>
+			</div>
 		</div>
-	</div>
-	<div id='map'>
-		<!-- Add MapBox watermark -->
-		<a href="http://mapbox.com/about/maps" id='mapbox-maplogo' target="_blank">Mapbox></a>
-	</div>
-</body>
+
+		<div id="map">
+			<!-- Add MapBox watermark -->
+			<a href="http://mapbox.com/about/maps" id="mapbox-maplogo" target="_blank">Mapbox></a>
+		</div>
+
+		<!-- Small modal -->
+		<div class="modal fade" id="smallModal" role="dialog">
+			<div class="modal-dialog modal-sm">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h4 class="modal-title">
+							<span id="modalAnimal"></span> by 
+							<span id="modalPseudo"></span>
+						</h4>
+					</div>
+					<div class="modal-body">
+						<img id="modalImage" alt="Photo"/><br/>
+						<p>When: <span id="modalDate"></span></p>
+						<p>Details: <span id="modalDetails"></span></p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
 </html>
