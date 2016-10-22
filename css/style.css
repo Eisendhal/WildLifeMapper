@@ -192,3 +192,10 @@ span.expand::before {
 	visibility: visible;
 	opacity: 1;
 }
+
+.btn-primary {
+	z-index: 50000;
+	position: absolute;
+	top: 10px;
+	left: 100px;
+}
