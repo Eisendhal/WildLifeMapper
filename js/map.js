@@ -14,6 +14,8 @@ function WildlifeMap() {
 	});
 	// Display zoom, compass
 	this.map.addControl(new mapboxgl.NavigationControl());
+	// Display Geolocate Button
+	this.map.addControl(new mapboxgl.GeolocateControl({position: 'bottom-right'}));	
 	// DEFINE ASYNC FUNCTIONS CALLS
 	// Fetch the wildlife points every 30 secs
 	setInterval($.proxy(this.fetchWildlife, this), 30000);
