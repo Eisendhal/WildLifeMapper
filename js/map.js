@@ -52,11 +52,11 @@ WildlifeMap.prototype.fetchWildlife = function() {
 	//TODO: Do not refresh everything
 	//TODO: Compute time passed since each insertion
 	// Sent the current bounds cause we don't need to display invisible points
-	$.getJSON('php/wildlife.php', this.getBounds(), $.proxy(function(geoJSON) {
+	$.getJSON('php/wildlife.php', this.getBounds(), $.proxy(function(jsonData) {
 		//Remove each marker before updating
 		this.clearWildlifePoints();
 
-		geoJSON.features.forEach($.proxy(function(pointInfos) {
+		jsonData.forEach($.proxy(function(pointInfos) {
 			this.createWildlifePoint(pointInfos);
 		}, this));
 	}, this));
@@ -72,22 +72,25 @@ WildlifeMap.prototype.clearWildlifePoints = function() {
 WildlifeMap.prototype.createWildlifePoint = function(pointInfos) {
 	var el = document.createElement('div');
 	el.className = 'marker';
-	el.style.backgroundImage = 'url(' + pointInfos.properties.image + ')'; 
+	el.style.backgroundImage = 'url(' + pointInfos.image + ')'; 
 	el.addEventListener('click', $.proxy(function() {
 		this.clickOnWildlifePoint(pointInfos);
 	}, this));
 
 	var wildlifeMarker = new mapboxgl.Marker(el);
-	wildlifeMarker.setLngLat(pointInfos.geometry.coordinates);
+	wildlifeMarker.setLngLat([
+		pointInfos.longitude,
+		pointInfos.latitude]);
 	wildlifeMarker.addTo(this.map);
 	this.wildlifeMarkersList.push(wildlifeMarker);
 }
 
 WildlifeMap.prototype.clickOnWildlifePoint = function(pointInfos) {
-	$('#modalAnimal').get(0).innerHTML = pointInfos.properties.animal;
-	$('#modalPseudo').get(0).innerHTML = pointInfos.properties.pseudo;
-	$('#modalImage').get(0).src = pointInfos.properties.image;
-	$('#modalDate').get(0).innerHTML = pointInfos.properties.datetime;
-	$('#modalDetails').get(0).innerHTML = pointInfos.properties.details;
+	$('#modalAnimal').get(0).innerHTML = pointInfos.animal;
+	$('#modalPseudo').get(0).innerHTML = pointInfos.pseudo;
+	$('#modalImage').get(0).src = pointInfos.image;
+	$('#modalMinutes').get(0).innerHTML = pointInfos.minutes;
+	$('#modalDescription').get(0).innerHTML = pointInfos.description;
+	$('#modalDetails').get(0).innerHTML = pointInfos.details;
 	$('#smallModal').modal();
 }
