@@ -15,7 +15,47 @@ function WildlifeMap() {
 	// Display zoom, compass
 	this.map.addControl(new mapboxgl.NavigationControl());
 	// Display Geolocate Button
-	this.map.addControl(new mapboxgl.GeolocateControl({position: 'bottom-right'}));	
+	this.map.addControl(geolocate);
+    	var markerDiv = document.createElement('div');
+        markerDiv.className = 'markerPos'; 
+        //markerDiv.style.backgroundImage = 'url(marker.png)';   
+    	var posMarker = new mapboxgl.Marker(markerDiv) // ne marche pas
+	   .setLngLat([-71.05, 48.4159])
+	   .addTo(this.map);    
+    geolocate.on('geolocate', function(e) 
+    {
+        console.log(e);
+	    posMarker.setLngLat([e.coords.longitude, e.coords.latitude]);
+        
+        //circle of accuracy
+       /*this.map.addSource("source_circle_500", {
+        "type": "geojson",
+        "data": {
+            "type": "FeatureCollection",
+            "features": [{
+                "type": "Feature",
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [e.coords.longitude, e.coords.latitude]
+                }
+            }]
+        }
+        });
+
+        this.map.addLayer({
+            "id": "circle500",
+        "type": "circle",
+        "source": "source_circle_500",
+        "layout": {
+            "visibility": "none"
+        },
+            "paint": {
+                "circle-radius": e.coords.accuracy,
+                "circle-color": "#5b94c6",
+                "circle-opacity": 0.6
+        }
+        });*/
+    });
 	// DEFINE ASYNC FUNCTIONS CALLS
 	// Fetch the wildlife points every 30 secs
 	setInterval($.proxy(this.fetchWildlife, this), 30000);
