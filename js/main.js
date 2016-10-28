@@ -14,48 +14,49 @@ function WildlifeMap() {
 	});
 	// Display zoom, compass
 	this.map.addControl(new mapboxgl.NavigationControl());
+    
+    // Data of the geoloc circle
+   this.geolocData = {
+       'type': 'FeatureCollection',
+       'features': [{
+           'type': 'Feature',
+           'geometry': {
+           'type': 'Point',
+               'coordinates': [0, 0]
+           }
+       }]
+   };
+    
 	// Display Geolocate Button
-	this.map.addControl(geolocate);
-    	var markerDiv = document.createElement('div');
-        markerDiv.className = 'markerPos'; 
-        //markerDiv.style.backgroundImage = 'url(marker.png)';   
-    	var posMarker = new mapboxgl.Marker(markerDiv) // ne marche pas
-	   .setLngLat([-71.05, 48.4159])
-	   .addTo(this.map);    
-    geolocate.on('geolocate', function(e) 
-    {
-        console.log(e);
-	    posMarker.setLngLat([e.coords.longitude, e.coords.latitude]);
-        
-        //circle of accuracy
-       /*this.map.addSource("source_circle_500", {
-        "type": "geojson",
-        "data": {
-            "type": "FeatureCollection",
-            "features": [{
-                "type": "Feature",
-                "geometry": {
-                    "type": "Point",
-                    "coordinates": [e.coords.longitude, e.coords.latitude]
-                }
-            }]
-        }
-        });
+    
+   this.map.on('load', $.proxy(function() {
+       this.map.addSource('geolocSrc', {
+       'type': 'geojson',
+           'data': this.geolocData
+       });
 
-        this.map.addLayer({
-            "id": "circle500",
-        "type": "circle",
-        "source": "source_circle_500",
-        "layout": {
-            "visibility": "none"
-        },
-            "paint": {
-                "circle-radius": e.coords.accuracy,
-                "circle-color": "#5b94c6",
-                "circle-opacity": 0.6
-        }
-        });*/
-    });
+       // To draw the geoloc circle
+       this.map.addLayer({
+           'id': 'geolocLayer',
+           'type': 'circle',
+           'source': 'geolocSrc',
+           'layout': {
+               'visibility': 'none'
+           },
+           'paint': {
+               'circle-radius': 0,
+               'circle-color': '#5b94c6',
+               'circle-opacity': 0.6
+           }
+       });
+   }, this));
+
+   // Display Geolocate Button
+   var geolocate = new mapboxgl.GeolocateControl({position: 'bottom-right'});
+   geolocate.on('geolocate', $.proxy(this.geolocate, this));
+   // Display Geolocate Button
+   this.map.addControl(geolocate);    
+
 	// DEFINE ASYNC FUNCTIONS CALLS
 	// Fetch the wildlife points every 30 secs
 	setInterval($.proxy(this.fetchWildlife, this), 30000);
@@ -64,6 +65,31 @@ function WildlifeMap() {
 
 	// Execute the function directly otherwise a 30sec wait is required
 	this.fetchWildlife();
+}
+
+WildlifeMap.prototype.geolocate = function(e) {
+   console.log(e.coords.accuracy);
+   // Change the coords
+   this.geolocData.features[0].geometry.coordinates =
+       [e.coords.longitude, e.coords.latitude];
+   this.map.getSource('geolocSrc').setData(this.geolocData);
+
+   // Display the circle
+   var circleRadius = this.getMetersToPixelsAtMaxZoom(
+       e.coords.accuracy / 2, e.coords.latitude);
+   this.map.setPaintProperty('geolocLayer', 'circle-radius', {
+       stops: [
+           [0, 0],
+           [20, circleRadius]
+       ],
+       base: 2
+   });
+   this.map.setLayoutProperty('geolocLayer', 'visibility', 'visible');
+}
+
+// Inspired from http://stackoverflow.com/a/37794326/5153648
+WildlifeMap.prototype.getMetersToPixelsAtMaxZoom = function(meters, latitude) {
+   return meters / 0.075 / Math.cos(latitude * Math.PI / 180);
 }
 
 WildlifeMap.prototype.getBounds = function() {
@@ -143,3 +169,4 @@ var map = new WildlifeMap();
 $('#sidebar-btn').click(function() {
 	$('#sidebar').toggleClass('visible');
 });
+
