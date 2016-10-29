@@ -3,16 +3,18 @@
 header('Content-Type: application/json; charset=utf-8');
 include('db.php');
 
-$w = $_GET['nw']['longitude'];
+/*$w = $_GET['nw']['longitude'];
 $e = $_GET['se']['longitude'];
 $n = $_GET['nw']['latitude'];
-$s = $_GET['se']['latitude'];
+$s = $_GET['se']['latitude'];*/
 
 $query = '
 	SELECT *
-	FROM viewPointWildlife
-	WHERE (longitude BETWEEN ? AND ?)
-	AND (latitude BETWEEN ? AND ?)';
+	FROM viewPointWildlife';
+/*  WHERE (longitude BETWEEN ? AND ?)
+ *  AND (latitude BETWEEN ? AND ?)'
+ *  -> Does not work when map is rotated, or panned' */
+
 
 $statement = $db->stmt_init();
 
@@ -20,9 +22,10 @@ if(!$statement->prepare($query)) {
 	trigger_error($statement->error, E_USER_ERROR);
 }
 
+/* No need to bind param, the query has been cut
 if(!$statement->bind_param('dddd', $w, $e, $s, $n)) {
 	trigger_error($statement->error, E_USER_ERROR);
-}
+}*/
 
 if(!$statement->execute()) {
 	trigger_error($statement->error, E_USER_ERROR);
