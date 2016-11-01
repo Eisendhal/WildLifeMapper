@@ -5,7 +5,6 @@ function WildlifeMap() {
 	this.isAppear = false;
 	this.isDragging = false;
 	this.isCursorOverPoint = false;
-	this.coordinates = document.getElementById('coordinates');
 	
 	// INSTANCIATE MAPBOX
 	// Our default MapBox's accessToken
@@ -88,7 +87,6 @@ function WildlifeMap() {
 }
 
 WildlifeMap.prototype.geolocate = function(e) {
-	console.log(e.coords.accuracy);
 	// Change the coords
 	this.geolocData.features[0].geometry.coordinates =
 		[e.coords.longitude, e.coords.latitude];
@@ -311,7 +309,7 @@ WildlifeMap.prototype.displayForm = function(){
 	}
 }
 
-WildlifeMap.prototype.reset = function(){
+WildlifeMap.prototype.reset = function() {
 	this.isCursorOverPoint = false;
 	this.isDragging = false;
 	this.isAppear = false;
@@ -320,14 +318,47 @@ WildlifeMap.prototype.reset = function(){
 	this.map.removeSource('point');
 }
 
+WildlifeMap.prototype.getCursorCoords = function() {
+	arrayCoords = this.geojson.features[0].geometry.coordinates;
+	objCoords = {
+		'longitude': arrayCoords[0],
+		'latitude': arrayCoords[1]
+	}
+	return objCoords;
+}
+
 // Enable caching
 $.ajaxSetup({
 	cache: true
 });
 
+// THE MAP
 var map = new WildlifeMap();
 
 // THE SIDEBAR
 $('#sidebar-btn').click(function() {
 	$('#sidebar').toggleClass('visible');
+});
+
+// THE FORM
+$('#insertAnimalForm').submit(function() {
+	// "this" is the form
+	var formData = new FormData(this);
+	var coords = map.getCursorCoords();
+	formData.append('longitude', coords.longitude);
+	formData.append('latitude', coords.latitude);
+	$.ajax({
+		url: 'php/insert.php',
+		data: formData,
+		processData: false,
+		contentType: false,
+		type: 'POST',
+		success : function() {
+			$('#insertForm').modal('hide');
+			map.reset();
+			map.fetchWildlife();
+	}});
+
+	// Return false to prevent page from refreshing
+	return false;
 });

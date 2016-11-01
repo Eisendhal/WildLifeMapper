@@ -35,7 +35,6 @@
 					<span class="tooltiptext">AHAHAh TOOLTIP AHAHAHAH TOOLTIP</span>
 				</li>
 			</ul>
-			<button id="form" type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalForm" data-whatever="Formulaire">Formulaire</button>
 			<div id="sidebar-btn">
 				<span class="expand"></span>
 				<span class="expand"></span>
@@ -86,30 +85,36 @@
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
 						<h4 class="modal-title" id="ModalFormLabel">Qu'avez-vous vu?</h4>
 					</div>
 					<div class="modal-body">
-						<form>
+						<!-- Return false on submit to prevent page refreshing -->
+						<form id="insertAnimalForm" method="post" enctype="multipart/form-data">
 							<div class="form-group">
-								<select class="form-control">
+								<select name="animal" class="form-control">
 									<option>Autre</option>
-									<option>Orignal</option>
-									<option>Ours</option>
-									<option>Phoque</option>
-									<option>Marmotte</option>
+									<option>Carcajou</option>
+									<option>Caribou/Orignal</option>
 									<option>Castor</option>
+									<option>Couguar</option>
+									<option>Joffrey Sauvage</option>
+									<option>Lièvre</option>
+									<option>Loup gris</option>
+									<option>Loutre</option>
 								</select>
 							</div>
 							<div class="form-group">
 								<label for="inputImage">Photo ou selfie</label>
-								<input type="file" id="inputImage">
+								<input name="image" type="file" id="inputImage">
 							</div>
 							<div class="form-group">
 								<label for="pseudoInput" pl>Pseudo</label>
-								<input type="text" class="form-control" id="pseudoInput" placeholder="Abraracourcix">
+								<input name="pseudo" type="text" class="form-control" id="pseudoInput" placeholder="Abraracourcix">
 							</div>
-							<textarea class="form-control" rows="3" placeholder="Commentaire"></textarea>
+							<textarea name="details" class="form-control" rows="3" placeholder="Commentaire"></textarea>
 							<button type="submit" class="btn btn-default">Ajouter</button>
 						</form>
 					</div>
