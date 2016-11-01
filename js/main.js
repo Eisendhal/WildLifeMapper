@@ -2,16 +2,34 @@ function WildlifeMap() {
 	// DEFINE ATTRIBUTES
 	this.wildlifeMarkersList = [];
 	this.map = {} 
-
+	this.isAppear = false;
+	this.isDragging = false;
+	this.isCursorOverPoint = false;
+	this.coordinates = document.getElementById('coordinates');
+	
 	// INSTANCIATE MAPBOX
 	// Our default MapBox's accessToken
 	mapboxgl.accessToken = 'pk.eyJ1IjoidnRlcnRvaXMiLCJhIjoiY2l1OXYyYWQ4MDAwNDJvbDc3YXNvMzhnOCJ9.gUf56M93BErFAYA19YoH0g';
+
 	this.map = new mapboxgl.Map({
 		container: 'map', // Container id
 		// Map style (here, for pedestrian)
-		style: 'mapbox://styles/mapbox/outdoors-v9', 		center: [-71.05, 48.4159], // Default position
+		style: 'mapbox://styles/mapbox/outdoors-v9', 		
+		center: [-71.05, 48.4159], // Default position
 		zoom: 12 // Default zoom
 	});
+	this.canvas = this.map.getCanvasContainer();
+	this.geojson = {
+		"type": "FeatureCollection",
+		"features": [{
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [null, null]
+			}
+		}]
+	};
+	
 	// Display zoom, compass
 	this.map.addControl(new mapboxgl.NavigationControl());
 
@@ -56,6 +74,10 @@ function WildlifeMap() {
 	this.map.addControl(geolocate);    
 
 	// DEFINE ASYNC FUNCTIONS CALLS
+	this.map.on('mousedown', $.proxy(this.mouseDown, this), true);
+	this.map.on('mousemove', $.proxy(this.onMouseMove, this));
+	this.map.on('click', $.proxy(this.displayForm,this));
+	
 	// Fetch the wildlife points every 30 secs
 	setInterval($.proxy(this.fetchWildlife, this), 30000);
 	// Execute fetchWildlife when the map move (translation, zoom, ...)
@@ -199,6 +221,95 @@ WildlifeMap.prototype.clickOnWildlifePoint = function(pointInfos) {
 	$('#smallModal').modal();
 }
 
+WildlifeMap.prototype.createPoint = function (e) {
+	var position = e.lngLat;
+	var lgt = position.lng;
+	var lat = position.lat;	
+
+	this.geojson.features[0].geometry.coordinates = [lgt, lat];
+
+	// Add a single point to the map
+	this.map.addSource('point', {
+		"type": "geojson",
+		"data": this.geojson
+	});
+
+	this.map.addLayer({
+		"id": 'point',
+		"type": "circle",
+		"source": "point",
+		"paint": {
+			"circle-radius": 10,
+			"circle-color": "#3887be"
+		}
+	});
+
+	this.isAppear = true
+}
+
+WildlifeMap.prototype.mouseDown = function (e) {
+	if (!this.isAppear){this.createPoint(e);}
+	
+	if (!this.isCursorOverPoint) return;
+
+	this.isDragging = true;
+
+	// Set a cursor indicator
+	this.canvas.style.cursor = 'grab';
+
+	// Mouse events
+	this.map.on('mousemove', $.proxy(this.onMove,this));
+	this.map.on('mouseup', $.proxy(this.onUp,this));
+}
+
+WildlifeMap.prototype.onMove = function(e) {
+	if (!this.isDragging) return;
+	var coords = e.lngLat;
+
+	// Set a UI indicator for dragging.
+	this.canvas.style.cursor = 'grabbing';
+
+	// Update the Point feature in `geojson` coordinates
+	// and call setData to the source layer `point` on it.
+	this.geojson.features[0].geometry.coordinates = [coords.lng, coords.lat];
+	this.map.getSource('point').setData(this.geojson);
+}
+
+WildlifeMap.prototype.onUp = function(e) {
+	if(!this.isAppear){
+		this.createPoint(e);
+	}
+	var coords = e.lngLat;
+
+	this.canvas.style.cursor = '';
+	this.isDragging = false;
+}
+
+WildlifeMap.prototype.onMouseMove = function(e) {
+	if(!this.isAppear){return;}
+
+	var features = this.map.queryRenderedFeatures(e.point, { layers: ['point'] });
+
+	// Change point and cursor style as a UI indicator
+	// and set a flag to enable other mouse events.
+	if (features.length) {
+		this.map.setPaintProperty('point', 'circle-color', '#3bb2d0');
+		this.canvas.style.cursor = 'move';
+		this.isCursorOverPoint = true;
+		this.map.dragPan.disable();
+	} else {
+		this.map.setPaintProperty('point', 'circle-color', '#3887be');
+		this.canvas.style.cursor = '';
+		this.isCursorOverPoint = false;
+		this.map.dragPan.enable();
+	}
+}
+
+WildlifeMap.prototype.displayForm = function(){
+	if (this.isCursorOverPoint) {
+		$('#InsertForm').modal();
+	}
+}
 
 // Enable caching
 $.ajaxSetup({
