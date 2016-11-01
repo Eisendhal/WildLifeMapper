@@ -311,6 +311,15 @@ WildlifeMap.prototype.displayForm = function(){
 	}
 }
 
+WildlifeMap.prototype.reset = function(){
+	this.isCursorOverPoint = false;
+	this.isDragging = false;
+	this.isAppear = false;
+	this.geojson.features[0].geometry.coordinates = [null,null];
+	this.map.removeLayer('point');
+	this.map.removeSource('point');
+}
+
 // Enable caching
 $.ajaxSetup({
 	cache: true
