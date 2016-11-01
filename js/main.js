@@ -354,7 +354,7 @@ $('#insertAnimalForm').submit(function() {
 		contentType: false,
 		type: 'POST',
 		success : function() {
-			$('#insertForm').modal('hide');
+			$('#InsertForm').modal('hide');
 			map.reset();
 			map.fetchWildlife();
 	}});
